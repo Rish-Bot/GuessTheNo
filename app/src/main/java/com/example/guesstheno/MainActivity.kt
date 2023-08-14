@@ -17,64 +17,44 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-
-        binding
-            .leftButton
-            .setOnClickListener{
-            /*
-            Compare the numbers - response green or toast - reset the numbers
-             */
-
-            var leftNo = binding.leftButton.text.toString().toInt()
-            var RightNo = binding.rightButton.text.toString().toInt()
-
-Log.d("lftBt", leftNo.toString()+RightNo.toString())
+        randomNumberGenerator()
 
 
-            if(leftNo>RightNo){
-                binding
-                    .backgroundView
-                    .setBackgroundColor(Color.GREEN)
-
-                Toast.makeText(this, "Correct Answer", Toast.LENGTH_SHORT).show()
-            }else{
-                binding
-                    .backgroundView
-                    .setBackgroundColor(Color.RED)
-
-                Toast.makeText(this, "Wrong Answer", Toast.LENGTH_SHORT).show()
-            }
-                //Random number
-
-                binding.leftButton.text = (1..99).random().toString()
-                binding.rightButton.text = (1..99).random().toString()
+        binding.leftButton.setOnClickListener{
+           // Compare the numbers - response green or toast - reset the numbers
+            checkAnswer(true)
+            randomNumberGenerator()
         }
 
-        //Right button
-        binding
-            .rightButton
-            .setOnClickListener {
-                var leftNo = binding.leftButton.text.toString().toInt()
-                var RightNo = binding.rightButton.text.toString().toInt()
-    print(leftNo)
-                print(RightNo)
 
-
-                if((leftNo<RightNo)){
-                    binding
-                        .backgroundView
-                        .setBackgroundColor(Color.GREEN)
-
-                    Toast.makeText(this, "Correct Answer", Toast.LENGTH_SHORT).show()
-                }else{
-                    binding
-                        .backgroundView
-                        .setBackgroundColor(Color.RED)
-
-                    Toast.makeText(this, "Wrong Answer", Toast.LENGTH_SHORT).show()
-                }
-                binding.leftButton.text = (1..99).random().toString()
-                binding.rightButton.text = (1..99).random().toString()
+        binding.rightButton.setOnClickListener {
+            checkAnswer(false)
+            randomNumberGenerator()
             }
+
+    }
+
+    private fun randomNumberGenerator(){
+        binding.leftButton.text = (1..99).random().toString()
+        binding.rightButton.text = (1..99).random().toString()
+    }
+
+    private fun checkAnswer(isLeftButtonSelected : Boolean){
+
+        var leftNo = binding.leftButton.text.toString().toInt()
+        var RightNo = binding.rightButton.text.toString().toInt()
+        var checkAns = if(isLeftButtonSelected) leftNo>RightNo else leftNo<RightNo
+
+
+        if(checkAns){
+            binding.backgroundView.setBackgroundColor(Color.GREEN)
+
+            Toast.makeText(this, "Correct Answer", Toast.LENGTH_SHORT).show()
+        }else{
+            binding.backgroundView.setBackgroundColor(Color.RED)
+
+            Toast.makeText(this, "Wrong Answer", Toast.LENGTH_SHORT).show()
+        }
+
     }
 }
